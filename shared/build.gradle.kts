@@ -4,8 +4,12 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.androidx.room)
 }
-
+//room{
+//    schemaDirectory "$projectDir/schemas"
+//}
 kotlin {
     androidTarget {
         compilerOptions {
@@ -22,7 +26,9 @@ kotlin {
             isStatic = true
         }
     }
-    
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
     sourceSets {
         androidMain.dependencies {
             //koin
@@ -32,6 +38,7 @@ kotlin {
 
             //ktor
             implementation(libs.ktor.client.okhttp)
+
         }
         iosMain.dependencies {
             //ktor
@@ -51,7 +58,14 @@ kotlin {
 
             implementation(libs.kotlinx.serialization.json)
 
+            //room
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
+//        dependencies{
+//            ksp(libs.androidx.room.compiler)
+//        }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
@@ -59,6 +73,14 @@ kotlin {
 }
 
 android {
+    dependencies {
+        add("kspAndroid", libs.androidx.room.compiler)
+        add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+//        add("kspIosX64", libs.androidx.room.compiler)
+        add("kspIosArm64", libs.androidx.room.compiler)
+        // Add any other platform target you use in your project, for example kspDesktop
+    }
+
     namespace = "com.zzz.movie.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {

@@ -19,8 +19,10 @@ navigationCompose = "2.9.6"
 koinBom ="4.1.1"
 ktor = "3.3.1"
 coil-version = "3.3.0"
-uiGraphics = "1.9.5"
 
+sqlite = "2.5.0-alpha11"
+roomVersion = "2.7.0"
+kspVersion = "2.2.20-2.0.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -58,10 +60,15 @@ coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref 
 #nav
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
-
 #serialize
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "uiGraphics" }
+
+#Room
+androidx-room-runtime = {group = "androidx.room" , name="room-runtime" , version.ref = "roomVersion"}
+androidx-room-ktx = {group = "androidx.room" , name="room-ktx",version.ref = "roomVersion"}
+androidx-room-compiler = {group = "androidx.room" , name = "room-compiler" , version.ref = "roomVersion"}
+
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 
 
 [plugins]
@@ -72,7 +79,9 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 #serialization
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization" , version.ref = "kotlin"}
-#---KOIN---
+#ksp plugin
+devtools-ksp = { id = "com.google.devtools.ksp" , version.ref ="kspVersion"}
+androidx-room = { id = "androidx.room", version.ref = "roomVersion" }
 
 
 
