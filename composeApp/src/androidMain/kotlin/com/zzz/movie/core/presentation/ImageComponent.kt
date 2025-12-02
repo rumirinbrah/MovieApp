@@ -75,7 +75,7 @@ fun ImageComponent(
 }
 
 @Composable
-private fun PulseLoading(modifier: Modifier = Modifier) {
+fun PulseLoading(modifier: Modifier = Modifier) {
     val transition = rememberInfiniteTransition()
     val progress by transition.animateFloat(
         initialValue = 0f,

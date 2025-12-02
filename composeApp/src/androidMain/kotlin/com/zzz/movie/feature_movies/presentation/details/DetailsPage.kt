@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -39,6 +40,7 @@ import com.zzz.movie.LocalSharedTransitionScope
 import com.zzz.movie.R
 import com.zzz.movie.core.presentation.CircularIconButton
 import com.zzz.movie.core.presentation.ImageComponent
+import com.zzz.movie.core.presentation.PulseLoading
 import com.zzz.movie.core.presentation.VerticalSpace
 import com.zzz.movie.feature_movies.presentation.details.components.GenreChip
 import com.zzz.movie.feature_movies.presentation.details.components.GlassContainer
@@ -166,7 +168,10 @@ fun DetailsPage(
                     .background(Color.DarkGray))
 
                 if(state.loading){
-                    CircularProgressIndicator()
+                    PulseLoading(
+                        Modifier.size(30.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
                 }
 
                 Column(
