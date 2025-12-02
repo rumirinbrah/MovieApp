@@ -1,8 +1,15 @@
 package com.zzz.movie.core.presentation
 
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,6 +17,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -40,8 +49,10 @@ fun ImageComponent(
     ) {
         when (state) {
             is AsyncImagePainter.State.Loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
+                PulseLoading(
+                    Modifier
+                        .size(25.dp)
+                        .align(Alignment.Center)
                 )
             }
 
@@ -61,6 +72,33 @@ fun ImageComponent(
             modifier = Modifier.matchParentSize()
         )
     }
+}
+
+@Composable
+private fun PulseLoading(modifier: Modifier = Modifier) {
+    val transition = rememberInfiniteTransition()
+    val progress by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000),
+            repeatMode = RepeatMode.Restart
+        )
+    )
+
+    Box(
+        modifier = modifier
+            .graphicsLayer {
+                scaleX = progress
+                scaleY = progress
+                alpha = 1f - progress
+            }
+            .border(
+                width = 5.dp,
+                color = Color.White,
+                shape = CircleShape
+            )
+    )
 }
 
 private fun String.loadImageUrl(size: String = "original"): String {
