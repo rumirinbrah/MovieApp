@@ -19,13 +19,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 
-const val BASE_URL = "https://api.themoviedb.org/3"
-const val TV_SERIES = "/tv/popular?language=en-US&page=1"
-const val GET_SERIES = "/tv"
-//https://image.tmdb.org/t/p/original/
+
 internal class TmdbMoviesSource(
     private val httpClient: HttpClient
 ) : MoviesRemoteSource {
+
+    val BASE_URL = "https://api.themoviedb.org/3"
+    val TV_SERIES = "/tv/popular?language=en-US&page=1"
+    val GET_SERIES = "/tv"
 
     override suspend fun getMovies(
         page: Int ,

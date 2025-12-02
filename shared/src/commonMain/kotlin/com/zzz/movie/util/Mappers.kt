@@ -3,7 +3,8 @@ package com.zzz.movie.util
 import com.zzz.movie.data.remote.dto.TvSeriesDetailResponse
 import com.zzz.movie.domain.model.MovieDetail
 
-fun TvSeriesDetailResponse.toMovieDetail(): MovieDetail{
+internal fun TvSeriesDetailResponse.toMovieDetail(): MovieDetail{
+    println("VOTE IS $voteAverage")
     return MovieDetail(
         name = name,
         date = firstAirDate,

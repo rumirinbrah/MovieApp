@@ -27,6 +27,8 @@ object HttpClientFactory {
         engine : HttpClientEngine,
     ): HttpClient{
         return HttpClient(engine) {
+            expectSuccess = false
+            //serialization
             install(ContentNegotiation){
                 json(
                     json = Json {
@@ -35,6 +37,7 @@ object HttpClientFactory {
                     }
                 )
             }
+            //auth
             install(DefaultRequest){
                 header(HttpHeaders.Authorization,"Bearer ${ApiStuff.TOKEN}")
             }

@@ -20,7 +20,7 @@ import kotlin.coroutines.coroutineContext
  *
  * @author zyzz
 */
-suspend inline fun<reified T> safeNetworkCall(
+internal suspend inline fun<reified T> safeNetworkCall(
     block : ()-> HttpResponse
 ) : Result<T, NetworkError>{
     val response = try {
@@ -28,7 +28,15 @@ suspend inline fun<reified T> safeNetworkCall(
     }catch (e : SerializationException){
         e.printStackTrace()
         return Result.Error(NetworkError.Serialization)
-    }catch (e : ClientRequestException){
+    }catch (e : Exception){
+        e.printStackTrace()
+        coroutineContext.ensureActive()
+        return Result.Error(NetworkError.Unknown)
+    }
+    return responseToResult(response)
+}
+/*
+catch (e : ClientRequestException){
         e.printStackTrace()
         return when(e.response.status.value){
             401 -> Result.Error(NetworkError.BadRequest)
@@ -38,13 +46,8 @@ suspend inline fun<reified T> safeNetworkCall(
     }catch (e : ServerResponseException){
         e.printStackTrace()
         return Result.Error(NetworkError.Internal)
-    }catch (e : Exception){
-        e.printStackTrace()
-        coroutineContext.ensureActive()
-        return Result.Error(NetworkError.Unknown)
     }
-    return responseToResult(response)
-}
+ */
 
 
 /**
@@ -52,7 +55,7 @@ suspend inline fun<reified T> safeNetworkCall(
  *
  * @author zyzz
 */
-suspend inline fun <reified T> responseToResult(
+internal suspend inline fun <reified T> responseToResult(
     response : HttpResponse
 ) : Result<T, NetworkError>{
     return when(response.status.value){
@@ -63,6 +66,11 @@ suspend inline fun <reified T> responseToResult(
                 Result.Error(NetworkError.Serialization)
             }
         }
+        400 -> Result.Error(NetworkError.BadRequest)
+        401 -> Result.Error(NetworkError.Unauthorized)
+        403 -> Result.Error(NetworkError.Forbidden)
+        404 -> Result.Error(NetworkError.NotFound)
+        in 400..499 -> Result.Error(NetworkError.Client)
         in 500..599->{
             Result.Error(NetworkError.Unknown)
         }

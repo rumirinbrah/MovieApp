@@ -3,8 +3,13 @@ package com.zzz.movie.data.remote.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Tv series details
+ *
+ * @author zyzz
+*/
 @Serializable
-data class TvSeriesDetailResponse(
+internal data class TvSeriesDetailResponse(
     val name: String ,
     val firstAirDate: String ,
     val episodeRunTime: List<Int> ,
@@ -15,13 +20,13 @@ data class TvSeriesDetailResponse(
 )
 
 @Serializable
-data class Genre(
+internal data class Genre(
     val id: Int,
     val name: String
 )
 
 @Serializable
-data class Creator(
+internal data class Creator(
     val id: Int,
     val name: String
 )

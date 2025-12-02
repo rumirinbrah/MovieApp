@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Movie entity
+ * Movie model
  *
  * @author zyzz
  */

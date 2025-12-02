@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.zzz.movie.core.nav.Navigation
-import com.zzz.movie.feature_movies.presentation.Tester
 import com.zzz.movie.feature_movies.presentation.home.HomePage
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -41,7 +40,6 @@ class MainActivity : ComponentActivity() {
                             Modifier,
                             innerPadding = it
                         )
-
                     }
                 }
             }

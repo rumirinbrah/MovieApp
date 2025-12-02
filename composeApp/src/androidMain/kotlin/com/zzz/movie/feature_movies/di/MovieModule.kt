@@ -5,7 +5,7 @@ import com.zzz.movie.feature_movies.presentation.home.viewmodel.MoviesViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
-val androidModule = module {
+val movieModule = module {
     viewModel {
         MoviesViewModel(
             moviesRemoteSource = get()

@@ -1,5 +1,6 @@
 package com.zzz.movie.feature_movies.presentation.home
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,13 +24,16 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Brush.Companion.horizontalGradient
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,6 +45,7 @@ import com.zzz.movie.core.presentation.RoundedIconButton
 import com.zzz.movie.core.presentation.VerticalSpace
 import com.zzz.movie.domain.model.Movie
 import com.zzz.movie.feature_movies.presentation.home.components.GridMovieItem
+import com.zzz.movie.feature_movies.presentation.home.viewmodel.MovieAction
 import com.zzz.movie.feature_movies.presentation.home.viewmodel.MoviesViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -53,6 +58,15 @@ fun HomePage(
 ) {
     val moviesViewModel = koinViewModel<MoviesViewModel>()
     val state by moviesViewModel.state.collectAsStateWithLifecycle()
+    val events = moviesViewModel.events
+
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        events.collect {
+            Toast.makeText( context, it , Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Box(
         Modifier
@@ -68,7 +82,8 @@ fun HomePage(
             .padding(innerPadding)
     ) {
         Column(
-            modifier.fillMaxSize()
+            modifier
+                .fillMaxSize()
                 .padding(16.dp) ,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -100,9 +115,9 @@ fun HomePage(
             VerticalSpace()
 
             OutlinedTextField(
-                value = "" ,
+                value = state.searchQuery ,
                 onValueChange = {
-
+                    moviesViewModel.onAction(MovieAction.OnSearchQueryChange(it))
                 } ,
                 placeholder = {
                     Text(
